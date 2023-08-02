@@ -3,6 +3,7 @@ package com.daniel.gestiondestock.exception;
 public enum ErrorCodes {
    
   ARTICLE_NOT_FOUND (1000),
+  ARTICLE_NOT_VALID (1002),
   CATEGORY_NOT_FOUND (1001),
   COMMANDE_CLIENT_NOT_FOUND(4000),
   COMMANDE_FOURNISSEUR_NOT_FOUND(5000),
