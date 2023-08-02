@@ -11,22 +11,22 @@ import org.springframework.http.MediaType;
 import com.daniel.gestiondestock.dto.ArticleDto;
 
 
-public interface ArticleApi {
+public interface ArticleApi extends AbstractApi <ArticleDto> {
     
-  @PostMapping(value="/articles/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  ArticleDto save(@RequestBody ArticleDto dto);
+  // @PostMapping(value="/articles/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  // ArticleDto save(@RequestBody ArticleDto dto);
   
-  @GetMapping(value ="/articles/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
-  ArticleDto findById(@PathVariable("idArticle") Integer id);
+  // @GetMapping(value ="/articles/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+  // ArticleDto findById(@PathVariable("idArticle") Integer id);
 
   @GetMapping(value ="/articles/{codeArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
   ArticleDto findByCodeArticle(String codeArticle);
   
-  @GetMapping(value ="/articles/all", produces=MediaType.APPLICATION_JSON_VALUE)
-  List<ArticleDto> findAll();
+  // @GetMapping(value ="/articles/all", produces=MediaType.APPLICATION_JSON_VALUE)
+  // List<ArticleDto> findAll();
   
-  @DeleteMapping(value="/articles/delete/{idArticle}")
-  void delete(@PathVariable("idArticle") Integer id);
+  // @DeleteMapping(value="/articles/delete/{idArticle}")
+  // void delete(@PathVariable("idArticle") Integer id);
   
 
 }

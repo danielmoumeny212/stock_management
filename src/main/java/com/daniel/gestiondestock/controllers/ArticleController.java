@@ -8,25 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.daniel.gestiondestock.controllers.api.ArticleApi;
 import com.daniel.gestiondestock.dto.ArticleDto;
-import com.daniel.gestiondestock.services.ArticleService;
+import com.daniel.gestiondestock.services.impl.ArticleServiceImpl;
 import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 
-
 @RestController
-@RequestMapping(APP_ROOT)
-public class ArticleController implements ArticleApi{
-   
+@RequestMapping(APP_ROOT + "/article")
+public class ArticleController implements ArticleApi {
+
   @Autowired
-  private   ArticleService  articleService;
+  private ArticleServiceImpl articleService;
 
   @Override
   public void delete(Integer id) {
-      articleService.delete(id);
-  }
-
-  @Override
-  public List<ArticleDto> findAll() {
-    return articleService.findAll();
+    articleService.delete(id);
   }
 
   @Override
@@ -35,15 +29,19 @@ public class ArticleController implements ArticleApi{
   }
 
   @Override
-  public ArticleDto findById(Integer id) {
-    return articleService.findById(id);
+  public ArticleDto create(ArticleDto resource) {
+    return articleService.save(resource);
   }
 
   @Override
-  public ArticleDto save(ArticleDto dto) {
-    return articleService.save(dto);
+  public List<ArticleDto> getAll() {
+    return articleService.findAll();
   }
 
+  @Override
+  public ArticleDto getById(Integer id) {
+    return articleService.findById(id);
 
-  
+  }
+
 }
