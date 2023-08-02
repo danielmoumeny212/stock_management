@@ -57,11 +57,17 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public CategoryDto save(CategoryDto dto) {
     List<String> errors = CategoryValidator.validate(dto);
+    log.info(dto.toString());
     if(!errors.isEmpty()){
        log.error("Category is not valid");
        throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
     }
-    return null;
+
+    return CategoryDto.fromEntity(
+      repository.save(
+        CategoryDto.toEntity(dto)
+      )
+    );
   }
 
 }

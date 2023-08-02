@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.gestiondestock.controllers.api.AbstractApi;
 import com.daniel.gestiondestock.dto.CategoryDto;
-import com.daniel.gestiondestock.services.CategoryService;
+import com.daniel.gestiondestock.services.impl.CategoryServiceImpl;
+
 import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 
 
@@ -16,7 +17,7 @@ import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 public class CategoryController implements AbstractApi<CategoryDto>{
   
   @Autowired
-  private CategoryService categoryService; 
+  private CategoryServiceImpl categoryService; 
 
   @Override
   public CategoryDto create(CategoryDto resource) {
