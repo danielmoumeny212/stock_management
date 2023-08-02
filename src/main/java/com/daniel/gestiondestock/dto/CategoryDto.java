@@ -17,29 +17,33 @@ public class CategoryDto {
 
         private String designation;
 
+        private String identreprise;
+
         @JsonIgnore
         private List<ArticleDto> articles;
 
-       static public CategoryDto fromEntity(Category category){
-                if (category == null){
+       static public CategoryDto fromEntity(Category instance){
+                if (instance == null){
                         return null; 
                 }
                 return CategoryDto.builder()
-                        .id(category.getId())
-                        .code(category.getCode())
-                        .designation(category.getDesignation())
+                        .id(instance.getId())
+                        .code(instance.getCode())
+                        .designation(instance.getDesignation())
+                        .identreprise(instance.getIdEntreprise())
                         .build();
         }
 
-        static public Category toEntity (CategoryDto categoryDto){
-                if(categoryDto == null){
+        static public Category toEntity (CategoryDto dto){
+                if(dto == null){
                         return null; 
 
                 }
                var category = new Category();
-                category.setId(categoryDto.getId());
-                category.setCode(categoryDto.getCode());
-                category.setDesignation(categoryDto.getDesignation());
+                category.setId(dto.getId());
+                category.setCode(dto.getCode());
+                category.setDesignation(dto.getDesignation());
+                category.setIdEntreprise(dto.getIdentreprise());
 
                 return category;
         }

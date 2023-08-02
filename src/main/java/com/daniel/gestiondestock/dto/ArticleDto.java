@@ -1,15 +1,12 @@
 package com.daniel.gestiondestock.dto;
-
-
 import com.daniel.gestiondestock.model.Article;
 import lombok.Builder;
 import lombok.Data;
-
 import java.math.BigDecimal;
 
 @Data
 @Builder
-public class ArticleDto  {
+public class ArticleDto {
     private Integer id;
 
     private String designation;
@@ -19,6 +16,8 @@ public class ArticleDto  {
     private BigDecimal prixunitaireHt;
 
     private BigDecimal tauxTva;
+
+    private String identreprise; 
 
     private BigDecimal prixUnitaireTtc;
 
@@ -40,7 +39,9 @@ public class ArticleDto  {
                 .designation(instance.getDesignation())
                 .prixunitaireHt(instance.getPrixunitaireHt())
                 .codeArticle(instance.getCodeArticle())
+                .prixUnitaireTtc(instance.getPrixUnitaireTtc())
                 .photo(instance.getPhoto())
+                .identreprise(instance.getIdEntreprise())
                 .tauxTva(instance.getTauxTva())
                 .build();
 
@@ -54,6 +55,8 @@ public class ArticleDto  {
           article.setDesignation(dto.getDesignation());
           article.setCodeArticle(dto.getCodeArticle());
           article.setPhoto(dto.getPhoto());
+          article.setIdEntreprise(dto.getIdentreprise());
+          article.setPrixUnitaireTtc(dto.getPrixUnitaireTtc());
           article.setPrixunitaireHt(dto.getPrixunitaireHt());
           article.setTauxTva(dto.getTauxTva());
 

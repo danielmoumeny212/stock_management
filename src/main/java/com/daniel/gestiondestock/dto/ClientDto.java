@@ -15,7 +15,7 @@ public class ClientDto {
     private String nom;
     private String prenom;
     private AdresseDto adresse;
-
+    private String identreprise; 
     private String mail;
 
     private String numTel;
@@ -39,6 +39,7 @@ public class ClientDto {
                 .nom(entity.getNom())
                 .numTel(entity.getNumTel())
                 .prenom(entity.getPrenom())
+                .identreprise(entity.getIdEntreprise())
                 .mail(entity.getMail())
                 .build();
     }
@@ -52,6 +53,12 @@ public class ClientDto {
         client.setNom(dto.getNom());
         client.setPrenom(dto.getPrenom());
         client.setNumTel(dto.getNumTel());
+        client.setIdEntreprise(dto.getIdentreprise());
+        client.setAdresse(AdresseDto.toEntity(dto.getAdresse()));
+         var commandeClientsDto = dto.getCommandeClients()
+                .stream().map(CommandeClientDto::toEntity)
+                .collect(Collectors.toList());
+        client.setCommandeClients(commandeClientsDto);
 
 //        client.setAdresse(dto.getAdresse());
 
