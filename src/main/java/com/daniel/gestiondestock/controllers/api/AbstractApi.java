@@ -1,4 +1,4 @@
-package com.daniel.gestiondestock.controllers;
+package com.daniel.gestiondestock.controllers.api;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,6 @@ public interface AbstractApi<T> {
     List<T> getAll();
 
     @DeleteMapping(value = "/delete/{id}")
-    void delete(@PathVariable("id") Long id);
+    void delete(@PathVariable("id") Integer id);
 
 }
