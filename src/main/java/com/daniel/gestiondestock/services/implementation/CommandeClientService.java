@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class CommandClientService implements ICommandeClientService {
+public class CommandeClientService implements ICommandeClientService {
 
   @Autowired
   private CommandeClientRepository repository;
