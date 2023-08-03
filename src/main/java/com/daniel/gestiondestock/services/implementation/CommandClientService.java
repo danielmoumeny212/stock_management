@@ -27,20 +27,20 @@ public class CommandClientService implements ICommandeClientService {
   @Autowired
   private CommandeClientRepository repository;
 
-  @Override
-  public CommandeClientDto findCommandeByDate(String date) {
-    if (!StringUtils.hasLength(date)) {
-      log.error("Invalid date: " + date);
-      return null;
-    }
-    Optional<CommandeClient> commandeOptional = this.repository.findByDate(date);
-    var commande = commandeOptional.orElseThrow(
-        () -> new EntityNotFoundException("Aucune commande client n'as été trouvé",
-            ErrorCodes.COMMANDE_CLIENT_NOT_FOUND));
+  // @Override
+  // public CommandeClientDto findCommandeByDate(String date) {
+  //   if (!StringUtils.hasLength(date)) {
+  //     log.error("Invalid date: " + date);
+  //     return null;
+  //   }
+  //   Optional<CommandeClient> commandeOptional = this.repository.findByDateCommande(date);
+  //   var commande = commandeOptional.orElseThrow(
+  //       () -> new EntityNotFoundException("Aucune commande client n'as été trouvé",
+  //           ErrorCodes.COMMANDE_CLIENT_NOT_FOUND));
 
-    return DtoMapper.fromEntity(commande, CommandeClientDto.class);
+  //   return DtoMapper.fromEntity(commande, CommandeClientDto.class);
 
-  }
+  // }
 
   @Override
   public CommandeClientDto findByIdEntreprise(String idEntreprise) {
