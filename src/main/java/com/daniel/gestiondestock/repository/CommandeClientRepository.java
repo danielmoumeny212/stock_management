@@ -9,6 +9,6 @@ import com.daniel.gestiondestock.model.CommandeClient;
 public interface CommandeClientRepository extends JpaRepository<CommandeClient, Integer>{
 
   Optional<CommandeClient> findByIdEntreprise(String idEntreprise);
-  Optional<CommandeClient> findByDate(String  date);
+  Optional<CommandeClient> findByDate(String  dateCommande);
   
 }
