@@ -15,7 +15,6 @@ public class CommandeFournisseur {
             errors.add("Veuillez renseigner le fournisseur");
             errors.add("Veuillez renseigner la ligne de commande fournisseur");
         }
-
         if(!StringUtils.hasLength(dto.getCode())){
             errors.add("Veuillez renseigner le code du fournisseur");
         }
