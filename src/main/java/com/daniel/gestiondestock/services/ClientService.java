@@ -45,23 +45,26 @@ public class ClientService implements AbstractService<ClientDto> {
 
   @Override
   public ClientDto findById(Integer id) {
-    if (id == null) {
-      log.error("Id property is null");
-      return null;
-    }
-    Optional<Client> client = this.repository.findById(id);
-    return Optional.of(
-        ClientDto.fromEntity(client.get()))
-        .orElseThrow(() -> new EntityNotFoundException("Aucun client avec ID  = " + id + "n'as été trouvé",
-            ErrorCodes.CLIENT_NOT_FOUND));
-
+      if (id == null) {
+          log.error("Id property is null");
+          return null;
+      }
+  
+      Optional<Client> clientOptional = this.repository.findById(id);
+      Client client = clientOptional.orElseThrow(() ->
+              new EntityNotFoundException("Aucun client avec ID = " + id + " n'a été trouvé",
+              ErrorCodes.CLIENT_NOT_FOUND)
+      );
+  
+      return ClientDto.fromEntity(client);
   }
+  
 
   @Override
   public ClientDto save(ClientDto dto) {
     List<String> errors = ClientValidator.validate(dto);
     if (!errors.isEmpty()) {
-      log.error("Category is not valid");
+      log.error("Client is not valid");
       throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
     }
     return ClientDto.fromEntity(

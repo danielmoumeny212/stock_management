@@ -48,11 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
       log.error("Not valid category id provided");
       return null;
     }
-    Optional<Category> category = this.repository.findById(id);
-
-    return Optional.of(CategoryDto.fromEntity(category.get())).orElseThrow(
-        () -> new EntityNotFoundException("Aucun article avec l'ID  = " + id + "n'as été trouver dans la BDD",
-            ErrorCodes.CATEGORY_NOT_FOUND));
+    Optional<Category> categoryOptional = this.repository.findById(id);
+    Category category =  categoryOptional.orElseThrow(
+      () -> new EntityNotFoundException("Aucune category avec l'ID  = " + id + " n'as été trouver dans la BDD", ErrorCodes.CATEGORY_NOT_FOUND));  
+    return CategoryDto.fromEntity(category);
   }
 
   @Override

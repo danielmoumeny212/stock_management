@@ -30,6 +30,8 @@ public class ArticleServiceImpl implements ArticleService{
   ){
     this.articleRepository = articleRepository;
   }
+
+
   @Override
   public void delete(Integer id) {
     if(id == null){
@@ -54,10 +56,10 @@ public class ArticleServiceImpl implements ArticleService{
        log.error("Article CODE is null");
        return null;
     }
-    Optional<Article> article = articleRepository.findArticleByCodeArticle(codeArticle);
-        return Optional.of(ArticleDto.fromEntity(article.get())).orElseThrow(()->
-          new EntityNotFoundException("Aucun article avec le Code = "+ codeArticle + "n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND)
-        );
+    Optional<Article> articleOptional = articleRepository.findArticleByCodeArticle(codeArticle);
+    Article article = articleOptional.orElseThrow(
+      () ->   new EntityNotFoundException("Aucun article avec le Code = "+ codeArticle + "n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND));
+    return ArticleDto.fromEntity(article);
   }
 
   @Override
@@ -66,11 +68,10 @@ public class ArticleServiceImpl implements ArticleService{
       log.error("Article ID is null !");
       return null; 
     }
-
-    Optional<Article> article = articleRepository.findById(id);
-        return Optional.of(ArticleDto.fromEntity(article.get())).orElseThrow(()->
-          new EntityNotFoundException("Aucun article avec l'ID  = "+ id + "n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND)
-        );
+   Optional<Article> articleOptional = articleRepository.findById(id);
+    Article article = articleOptional.orElseThrow(
+      () ->   new EntityNotFoundException("Aucun article avec l' ID "+ id + " n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND));
+    return ArticleDto.fromEntity(article);
 
   }
 
