@@ -1,4 +1,4 @@
-package com.daniel.gestiondestock.services;
+package com.daniel.gestiondestock.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +14,7 @@ import com.daniel.gestiondestock.exception.InvalidEntityException;
 import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Client;
 import com.daniel.gestiondestock.repository.ClientRepository;
+import com.daniel.gestiondestock.services.contracts.AbstractService;
 import com.daniel.gestiondestock.validators.ClientValidator;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.daniel.gestiondestock.services;
+package com.daniel.gestiondestock.services.contracts;
 
 import java.util.List;
 

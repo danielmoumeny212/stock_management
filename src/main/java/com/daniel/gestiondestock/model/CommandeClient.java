@@ -6,26 +6,25 @@ import lombok.*;
 import java.time.Instant;
 import java.util.List;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name="commandeclient")
-public class CommandeClient extends AbstractEntity{
+@Table(name = "commandeclient")
+public class CommandeClient extends AbstractEntity {
 
-    @Column(name="code")
+    @Column(name = "code")
     private String code;
 
-    @Column(name="datecommande")
+    @Column(name = "datecommande")
     private Instant dateCommande;
 
     @ManyToOne
     @JoinColumn
     private Client client;
 
-    @Column(name="identreprise")
+    @Column(name = "identreprise")
     private String idEntreprise;
 
     @ManyToMany(mappedBy = "commandeClient")

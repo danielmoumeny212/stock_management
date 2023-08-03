@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.gestiondestock.controllers.api.AbstractApi;
 import com.daniel.gestiondestock.dto.ClientDto;
-import com.daniel.gestiondestock.services.ClientService;
+import com.daniel.gestiondestock.services.implementation.ClientService;
 
 import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 

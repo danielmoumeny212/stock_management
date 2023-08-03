@@ -1,4 +1,4 @@
-package com.daniel.gestiondestock.services.impl;
+package com.daniel.gestiondestock.services.implementation;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,18 +15,18 @@ import com.daniel.gestiondestock.exception.InvalidEntityException;
 import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Article;
 import com.daniel.gestiondestock.repository.ArticleRepository;
-import com.daniel.gestiondestock.services.ArticleService;
+import com.daniel.gestiondestock.services.contracts.IArticleService;
 import com.daniel.gestiondestock.validators.ArticleValidator;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ArticleServiceImpl implements ArticleService{
+public class ArticleService implements IArticleService{
    
   private ArticleRepository articleRepository;
 
   @Autowired
-  public ArticleServiceImpl(
+  public ArticleService(
     ArticleRepository articleRepository
   ){
     this.articleRepository = articleRepository;

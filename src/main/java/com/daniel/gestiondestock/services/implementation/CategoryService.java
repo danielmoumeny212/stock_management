@@ -1,4 +1,4 @@
-package com.daniel.gestiondestock.services.impl;
+package com.daniel.gestiondestock.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +14,14 @@ import com.daniel.gestiondestock.exception.InvalidEntityException;
 import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Category;
 import com.daniel.gestiondestock.repository.CategoryRepository;
-import com.daniel.gestiondestock.services.CategoryService;
+import com.daniel.gestiondestock.services.contracts.ICategoryService;
 import com.daniel.gestiondestock.validators.CategoryValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryService implements ICategoryService {
 
   @Autowired
   private CategoryRepository repository;

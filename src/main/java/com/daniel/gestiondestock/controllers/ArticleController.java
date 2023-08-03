@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.daniel.gestiondestock.controllers.api.ArticleApi;
 import com.daniel.gestiondestock.dto.ArticleDto;
-import com.daniel.gestiondestock.services.impl.ArticleServiceImpl;
+import com.daniel.gestiondestock.services.implementation.ArticleService;
+
 import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 
 @RestController
@@ -16,7 +17,7 @@ import static com.daniel.gestiondestock.utils.Constants.APP_ROOT;
 public class ArticleController implements ArticleApi {
 
   @Autowired
-  private ArticleServiceImpl articleService;
+  private ArticleService articleService;
 
   @Override
   public void delete(Integer id) {

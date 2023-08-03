@@ -1,10 +1,10 @@
-package com.daniel.gestiondestock.services;
+package com.daniel.gestiondestock.services.contracts;
 
 import java.util.List;
 
 import com.daniel.gestiondestock.dto.ArticleDto;
 
-public interface ArticleService {
+public interface IArticleService {
   
   ArticleDto save(ArticleDto dto);
   ArticleDto findById(Integer id);
