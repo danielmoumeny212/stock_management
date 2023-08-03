@@ -12,6 +12,7 @@ import com.daniel.gestiondestock.dto.ArticleDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
 import com.daniel.gestiondestock.exception.ErrorCodes;
 import com.daniel.gestiondestock.exception.InvalidEntityException;
+import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Article;
 import com.daniel.gestiondestock.repository.ArticleRepository;
 import com.daniel.gestiondestock.services.ArticleService;
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService{
   public List<ArticleDto> findAll() {
      List<ArticleDto> articleDtos = articleRepository.findAll()
             .stream()
-            .map(ArticleDto::fromEntity)
+            .map((article) -> DtoMapper.fromEntity(article, ArticleDto.class))
             .collect(Collectors.toList());
     return articleDtos;
   }
@@ -59,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService{
     Optional<Article> articleOptional = articleRepository.findArticleByCodeArticle(codeArticle);
     Article article = articleOptional.orElseThrow(
       () ->   new EntityNotFoundException("Aucun article avec le Code = "+ codeArticle + "n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND));
-    return ArticleDto.fromEntity(article);
+    return DtoMapper.fromEntity(article, ArticleDto.class);
   }
 
   @Override
@@ -71,7 +72,8 @@ public class ArticleServiceImpl implements ArticleService{
    Optional<Article> articleOptional = articleRepository.findById(id);
     Article article = articleOptional.orElseThrow(
       () ->   new EntityNotFoundException("Aucun article avec l' ID "+ id + " n'as été trouver dans la BDD", ErrorCodes.ARTICLE_NOT_FOUND));
-    return ArticleDto.fromEntity(article);
+    return DtoMapper.fromEntity(article, ArticleDto.class);
+
 
   }
 
@@ -82,11 +84,8 @@ public class ArticleServiceImpl implements ArticleService{
       log.error("Article is not valid");
       throw new InvalidEntityException("L'article n'est pas valide", ErrorCodes.ARTICLE_NOT_VALID,errors);
     }
-
-    return ArticleDto.fromEntity(articleRepository.save(
-       ArticleDto.toEntity(dto)
-    )
-    );
+    var article  = DtoMapper.toEntity(dto, Article.class);
+    return DtoMapper.fromEntity(articleRepository.save(article), ArticleDto.class);
   }
   
 }

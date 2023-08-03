@@ -1,34 +1,15 @@
 package com.daniel.gestiondestock.mapper;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 
-public class DtoMapper<Entity, Dto> {
+public class DtoMapper {
 
-    private final EntityConverter<Entity, Dto> fromEntityConverter;
-    private final EntityConverter<Dto, Entity> toEntityConverter;
+    private static final ModelMapper modelMapper = new ModelMapper();
 
-    public DtoMapper(EntityConverter<Entity, Dto> fromEntityConverter, EntityConverter<Dto, Entity> toEntityConverter) {
-        this.fromEntityConverter = fromEntityConverter;
-        this.toEntityConverter = toEntityConverter;
+    public static <D, E> D fromEntity(E entity, Class<D> dtoClass) {
+        return modelMapper.map(entity, dtoClass);
     }
 
-    public Dto fromEntity(Entity instance) {
-        return fromEntityConverter.convert(instance);
-    }
-
-    public Entity toEntity(Dto dto) {
-        return toEntityConverter.convert(dto);
-    }
-
-    public List<Dto> fromEntityList(List<Entity> entityList) {
-        return entityList.stream()
-                .map(this::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    public List<Entity> toEntityList(List<Dto> dtoList) {
-        return dtoList.stream()
-                .map(this::toEntity)
-                .collect(Collectors.toList());
+    public static <D, E> E toEntity(D dto, Class<E> entityClass) {
+        return modelMapper.map(dto, entityClass);
     }
 }

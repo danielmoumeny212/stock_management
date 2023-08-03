@@ -11,6 +11,7 @@ import com.daniel.gestiondestock.dto.CategoryDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
 import com.daniel.gestiondestock.exception.ErrorCodes;
 import com.daniel.gestiondestock.exception.InvalidEntityException;
+import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Category;
 import com.daniel.gestiondestock.repository.CategoryRepository;
 import com.daniel.gestiondestock.services.CategoryService;
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
   public void delete(Integer id) {
     if (id == null) {
       log.error("Invalid category id provided");
-      return ;
+      return;
     }
     this.repository.deleteById(id);
   }
@@ -37,7 +38,8 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public List<CategoryDto> findAll() {
     List<CategoryDto> categories = repository.findAll()
-        .stream().map(CategoryDto::fromEntity)
+        .stream()
+        .map((cat) -> DtoMapper.fromEntity(cat, CategoryDto.class))
         .collect(Collectors.toList());
     return categories;
   }
@@ -49,24 +51,22 @@ public class CategoryServiceImpl implements CategoryService {
       return null;
     }
     Optional<Category> categoryOptional = this.repository.findById(id);
-    Category category =  categoryOptional.orElseThrow(
-      () -> new EntityNotFoundException("Aucune category avec l'ID  = " + id + " n'as été trouver dans la BDD", ErrorCodes.CATEGORY_NOT_FOUND));  
-    return CategoryDto.fromEntity(category);
+    Category category = categoryOptional.orElseThrow(
+        () -> new EntityNotFoundException("Aucune category avec l'ID  = " + id + " n'as été trouver dans la BDD",
+            ErrorCodes.CATEGORY_NOT_FOUND));
+    return DtoMapper.fromEntity(category, CategoryDto.class);
   }
 
   @Override
   public CategoryDto save(CategoryDto dto) {
     List<String> errors = CategoryValidator.validate(dto);
-    if(!errors.isEmpty()){
-       log.error("Category is not valid");
-       throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
+    if (!errors.isEmpty()) {
+      log.error("Category is not valid");
+      throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
     }
-
-    return CategoryDto.fromEntity(
-      repository.save(
-        CategoryDto.toEntity(dto)
-      )
-    );
+    var category = DtoMapper.toEntity(dto, Category.class);
+    return DtoMapper.fromEntity(
+        repository.save(category), CategoryDto.class);
   }
 
 }

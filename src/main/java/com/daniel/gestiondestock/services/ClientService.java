@@ -11,6 +11,7 @@ import com.daniel.gestiondestock.dto.ClientDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
 import com.daniel.gestiondestock.exception.ErrorCodes;
 import com.daniel.gestiondestock.exception.InvalidEntityException;
+import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Client;
 import com.daniel.gestiondestock.repository.ClientRepository;
 import com.daniel.gestiondestock.validators.ClientValidator;
@@ -38,27 +39,24 @@ public class ClientService implements AbstractService<ClientDto> {
   public List<ClientDto> findAll() {
     List<ClientDto> clients = this.repository.findAll()
         .stream()
-        .map(ClientDto::fromEntity)
+        .map((client) -> DtoMapper.fromEntity(client, ClientDto.class))
         .collect(Collectors.toList());
     return clients;
   }
 
   @Override
   public ClientDto findById(Integer id) {
-      if (id == null) {
-          log.error("Id property is null");
-          return null;
-      }
-  
-      Optional<Client> clientOptional = this.repository.findById(id);
-      Client client = clientOptional.orElseThrow(() ->
-              new EntityNotFoundException("Aucun client avec ID = " + id + " n'a été trouvé",
-              ErrorCodes.CLIENT_NOT_FOUND)
-      );
-  
-      return ClientDto.fromEntity(client);
+    if (id == null) {
+      log.error("Id property is null");
+      return null;
+    }
+
+    Optional<Client> clientOptional = this.repository.findById(id);
+    Client client = clientOptional
+        .orElseThrow(() -> new EntityNotFoundException("Aucun client avec ID = " + id + " n'a été trouvé",
+            ErrorCodes.CLIENT_NOT_FOUND));
+    return DtoMapper.fromEntity(client, ClientDto.class);
   }
-  
 
   @Override
   public ClientDto save(ClientDto dto) {
@@ -67,10 +65,9 @@ public class ClientService implements AbstractService<ClientDto> {
       log.error("Client is not valid");
       throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
     }
-    return ClientDto.fromEntity(
-        this.repository
-            .save(
-                ClientDto.toEntity(dto)));
+    Client client= DtoMapper.toEntity(dto, Client.class);
+    var savedClient = this.repository.save(client);
+    return DtoMapper.fromEntity(savedClient, ClientDto.class);
   }
 
 }
