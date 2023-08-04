@@ -2,16 +2,24 @@ package com.daniel.gestiondestock.validators;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DtoValidator {
 
-    public static <T> List<String> validate(T dto) {
+    public static <T> List<String> validate(T dto, String... excludeFields) {
         List<String> errors = new ArrayList<>();
         Class<?> clazz = dto.getClass();
-
         Field[] fields = clazz.getDeclaredFields();
+        List<String> excludedFields = Arrays.asList(excludeFields);
+
         for (Field field : fields) {
+            String fieldName = field.getName();
+
+            if (excludedFields.contains(fieldName)) {
+                continue; // Skip validation for this field
+            }
+
             field.setAccessible(true); // Permet d'accéder aux champs privés
             Object value;
             try {
@@ -27,12 +35,12 @@ public class DtoValidator {
 
             // Exemple de validation pour un champ obligatoire non null
             if (value == null) {
-                errors.add("Field " + field.getName() + " is Required.");
+                errors.add("Field " + fieldName + " is Required.");
             } else if (value.getClass().getPackage().getName().startsWith(dto.getClass().getPackage().getName())) {
                 // Si le champ est un autre DTO du même package, nous le validons récursivement
-                List<String> nestedErrors = validate(value);
+                List<String> nestedErrors = validate(value, excludeFields);
                 for (String nestedError : nestedErrors) {
-                    errors.add("In Field ' " + field.getName() + "', " + nestedError);
+                    errors.add("In Field ' " + fieldName + "', " + nestedError);
                 }
             }
         }
