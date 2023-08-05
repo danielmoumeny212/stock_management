@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.daniel.gestiondestock.dto.CategoryDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
@@ -15,7 +16,7 @@ import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Category;
 import com.daniel.gestiondestock.repository.CategoryRepository;
 import com.daniel.gestiondestock.services.contracts.ICategoryService;
-import com.daniel.gestiondestock.validators.CategoryValidator;
+import com.daniel.gestiondestock.validators.DtoValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,14 +60,27 @@ public class CategoryService implements ICategoryService {
 
   @Override
   public CategoryDto save(CategoryDto dto) {
-    List<String> errors = CategoryValidator.validate(dto);
+    List<String> errors = DtoValidator.validate(dto);
     if (!errors.isEmpty()) {
       log.error("Category is not valid");
       throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);
     }
     var category = DtoMapper.toEntity(dto, Category.class);
     return DtoMapper.fromEntity(
-        repository.save(category), CategoryDto.class);
+        this.repository.save(category), CategoryDto.class);
+  }
+
+  @Override
+  public CategoryDto findByCode(String code) {
+    if (!StringUtils.hasLength(code)) {
+      log.error("Category Code is null");
+      return null;
+    }
+    return this.repository.findCategoryBycode(code)
+        .map((category) -> DtoMapper.fromEntity(category, CategoryDto.class))
+        .orElseThrow(() -> new EntityNotFoundException(
+            "category not found for code " + code,
+            ErrorCodes.CATEGORY_NOT_FOUND));
   }
 
 }

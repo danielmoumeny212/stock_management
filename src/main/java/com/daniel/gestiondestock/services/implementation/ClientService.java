@@ -15,7 +15,7 @@ import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.Client;
 import com.daniel.gestiondestock.repository.ClientRepository;
 import com.daniel.gestiondestock.services.contracts.AbstractService;
-import com.daniel.gestiondestock.validators.ClientValidator;
+import com.daniel.gestiondestock.validators.DtoValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,7 +61,7 @@ public class ClientService implements AbstractService<ClientDto> {
 
   @Override
   public ClientDto save(ClientDto dto) {
-    List<String> errors = ClientValidator.validate(dto);
+    List<String> errors = DtoValidator.validate(dto, "articles","id");
     if (!errors.isEmpty()) {
       log.error("Client is not valid");
       throw new InvalidEntityException("La category n'est pas valide", ErrorCodes.CATEGORY_NOT_VALID, errors);

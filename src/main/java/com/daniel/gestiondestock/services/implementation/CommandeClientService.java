@@ -16,7 +16,7 @@ import com.daniel.gestiondestock.mapper.DtoMapper;
 import com.daniel.gestiondestock.model.CommandeClient;
 import com.daniel.gestiondestock.repository.CommandeClientRepository;
 import com.daniel.gestiondestock.services.contracts.ICommandeClientService;
-import com.daniel.gestiondestock.validators.CommandeClientValidator;
+import com.daniel.gestiondestock.validators.DtoValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,7 +87,7 @@ public class CommandeClientService implements ICommandeClientService {
 
   @Override
   public CommandeClientDto save(CommandeClientDto dto) {
-   List<String> errors = CommandeClientValidator.validate(dto);
+   List<String> errors = DtoValidator.validate(dto);
    if(!errors.isEmpty()){
      log.error("CommandeClient is not valid");
       throw new InvalidEntityException("L'article n'est pas valide", ErrorCodes.COMMANDE_CLIENT_NOT_VALID,errors);
