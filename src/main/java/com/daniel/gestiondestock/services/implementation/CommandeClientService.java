@@ -60,7 +60,7 @@ public class CommandeClientService implements ICommandeClientService {
   @Override
   public void delete(Integer id) {
     if (id == null) {
-      log.error("Invalid ID passed ");
+      log.error("Commande Client CODE is null");
       return;
     }
     this.repository.deleteById(id);
@@ -78,7 +78,7 @@ public class CommandeClientService implements ICommandeClientService {
   @Override
   public CommandeClientDto findById(Integer id) {
     if (id == null) {
-      log.error("Invalid id provide ");
+      log.error("Commande Client CODE is null");
       return null;
     }
     Optional<CommandeClient> commandeClient = this.repository.findById(id);
@@ -89,7 +89,7 @@ public class CommandeClientService implements ICommandeClientService {
 
   @Override
   public CommandeClientDto save(CommandeClientDto dto) {
-    var errors = DtoValidator.validate(dto, "dateCommande", "commandeClients", "ligneCommandeClient");
+    var errors = DtoValidator.validate(dto, "ligneCommandeClient");
     List<String> articlesErrors = new ArrayList<String>();
     List<LigneCommandeClientDto> ligneCommandeClients = dto.getLigneCommandeClient();
     if (!errors.isEmpty()) {
