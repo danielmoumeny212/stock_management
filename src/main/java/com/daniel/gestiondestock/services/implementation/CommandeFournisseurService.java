@@ -2,6 +2,7 @@ package com.daniel.gestiondestock.services.implementation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CommandeFournisseurService implements ICommandeFournisseurService {
   @Override
   public CommandeFournisseurDto findByCode(String code) {
     if (code == null) {
-      log.error("CommandeFournisseur with null id is not allowed");
+      log.error("CommandeFournisseur with null CODE is not allowed");
       return null;
 
     }
@@ -47,14 +48,24 @@ public class CommandeFournisseurService implements ICommandeFournisseurService {
 
   @Override
   public List<CommandeFournisseurDto> findAll() {
-    // TODO Auto-generated method stub
-    return null;
+    List<CommandeFournisseurDto> commandeFournisseurs = this.repository.findAll()
+        .stream()
+        .map((cmdFournisseur) -> DtoMapper.fromEntity(cmdFournisseur, CommandeFournisseurDto.class))
+        .collect(Collectors.toList());
+    return commandeFournisseurs;
   }
 
   @Override
   public CommandeFournisseurDto findById(Integer id) {
-    // TODO Auto-generated method stub
-    return null;
+    if (id == null) {
+      log.error("CommandeFournisseur with null id is not allowed");
+      return null;
+    }
+    Optional<CommandeFournisseur> commandeFournisseurOptional = this.repository.findById(id);
+    var commandeFournisseur = commandeFournisseurOptional.orElseThrow(
+        () -> new EntityNotFoundException("Commande Fournisseur not found ",
+            ErrorCodes.COMMANDE_FOURNISSEUR_NOT_FOUND));
+    return DtoMapper.fromEntity(commandeFournisseur, CommandeFournisseurDto.class);
   }
 
   @Override
