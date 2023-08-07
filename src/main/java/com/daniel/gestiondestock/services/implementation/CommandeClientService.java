@@ -89,7 +89,7 @@ public class CommandeClientService implements ICommandeClientService {
 
   @Override
   public CommandeClientDto save(CommandeClientDto dto) {
-    var errors = DtoValidator.validate(dto, "ligneCommandeClient");
+    var errors = DtoValidator.validate(dto);
     List<String> articlesErrors = new ArrayList<String>();
     List<LigneCommandeClientDto> ligneCommandeClients = dto.getLigneCommandeClient();
     if (!errors.isEmpty()) {
@@ -119,7 +119,8 @@ public class CommandeClientService implements ICommandeClientService {
       throw new InvalidEntityException("Article Not Found in DB", ErrorCodes.ARTICLE_NOT_FOUND, errors);
     }
     var savedCommande = this.repository.save(DtoMapper.toEntity(dto, CommandeClient.class));
-    ligneCommandeClients.forEach(ligCmdClt -> {
+    if( ligneCommandeClients != null)
+     ligneCommandeClients.forEach(ligCmdClt -> {
       var ligneCommandeClient = DtoMapper.toEntity(ligCmdClt, LigneCommandeClient.class);
       ligneCommandeClient.setCommandeClient(savedCommande);
       ligneCommandeClientRepository.save(ligneCommandeClient);
