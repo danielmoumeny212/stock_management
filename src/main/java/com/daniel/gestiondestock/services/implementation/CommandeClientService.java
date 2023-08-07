@@ -105,7 +105,7 @@ public class CommandeClientService implements ICommandeClientService {
           ErrorCodes.CLIENT_NOT_FOUND);
     }
     if (ligneCommandeClients != null) {
-       ligneCommandeClients.forEach(ligCmdClt -> {
+      ligneCommandeClients.forEach(ligCmdClt -> {
         Optional<Article> article = articleRepository.findById(ligCmdClt.getArticle().getId());
         if (article.isEmpty()) {
           articlesErrors.add("Article not found with id " + ligCmdClt.getArticle().getId());
@@ -119,7 +119,7 @@ public class CommandeClientService implements ICommandeClientService {
       throw new InvalidEntityException("Article Not Found in DB", ErrorCodes.ARTICLE_NOT_FOUND, errors);
     }
     var savedCommande = this.repository.save(DtoMapper.toEntity(dto, CommandeClient.class));
-     ligneCommandeClients.forEach(ligCmdClt -> {
+    ligneCommandeClients.forEach(ligCmdClt -> {
       var ligneCommandeClient = DtoMapper.toEntity(ligCmdClt, LigneCommandeClient.class);
       ligneCommandeClient.setCommandeClient(savedCommande);
       ligneCommandeClientRepository.save(ligneCommandeClient);
@@ -130,7 +130,14 @@ public class CommandeClientService implements ICommandeClientService {
 
   @Override
   public CommandeClientDto findByCode(String code) {
-    return null;
+    if (code == null) {
+      log.error("Commande Client CODE is null");
+      return null;
+    }
+    Optional<CommandeClient> commandeClient = this.repository.findByCode(code);
+    var commande = commandeClient.orElseThrow(
+        () -> new EntityNotFoundException("CommandClient Not Found", ErrorCodes.COMMANDE_CLIENT_NOT_FOUND));
+    return DtoMapper.fromEntity(commande, CommandeClientDto.class);
   }
 
 }
