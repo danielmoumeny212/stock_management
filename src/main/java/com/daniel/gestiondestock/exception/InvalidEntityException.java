@@ -1,6 +1,7 @@
 package com.daniel.gestiondestock.exception;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 
@@ -11,6 +12,9 @@ public class InvalidEntityException extends RuntimeException{
 
   @Getter
   private List<String> errors;
+
+  @Getter
+  private Map<String, List<String>> fieldsErros; 
 
 
   
@@ -31,5 +35,4 @@ public class InvalidEntityException extends RuntimeException{
     this.errorCode = errorCode;
     this.errors = errors;
  }
-  
 }

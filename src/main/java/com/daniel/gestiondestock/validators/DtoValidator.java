@@ -17,7 +17,7 @@ public class DtoValidator {
             String fieldName = field.getName();
 
             if (excludedFields.contains(fieldName)) {
-                continue; // Skip validation for this field
+                continue; 
             }
 
             field.setAccessible(true); // Permet d'accéder aux champs privés
@@ -35,7 +35,7 @@ public class DtoValidator {
 
             // Exemple de validation pour un champ obligatoire non null
             if (value == null) {
-                errors.add("Field " + fieldName + " is Required.");
+                errors.add("Field " + fieldName + " of type "  + field.getType().getSimpleName() + " is Required.");
             } else if (value.getClass().getPackage().getName().startsWith(dto.getClass().getPackage().getName())) {
                 // Si le champ est un autre DTO du même package, nous le validons récursivement
                 List<String> nestedErrors = validate(value, excludeFields);

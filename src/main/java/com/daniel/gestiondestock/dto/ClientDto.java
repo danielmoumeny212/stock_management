@@ -6,7 +6,6 @@ import java.util.List;
 
 
 @Data
-
 public class ClientDto {
 
     private Integer id;
