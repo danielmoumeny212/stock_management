@@ -3,9 +3,11 @@ package com.daniel.gestiondestock.services.implementation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.daniel.gestiondestock.dto.VentesDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
@@ -41,20 +43,31 @@ public class VentesService implements IVentesService {
 
   @Override
   public VentesDto findByCode(String code) {
+    if (!StringUtils.hasLength(code)) {
+      log.error("Empty code for Vente");
+      return null;
 
-    return null;
+    }
+    return this.repository.findByCode(code)
+        .map((vente) -> DtoMapper.fromEntity(vente, VentesDto.class))
+        .orElseThrow(() -> new EntityNotFoundException("Vente Not Found in BDD", ErrorCodes.VENTE_NOT_FOUND));
+
   }
 
   @Override
   public void delete(Integer id) {
-    // TODO Auto-generated method stub
-
+    if (id == null) {
+      log.error("Ventes ID is NULL");
+    }
+    this.repository.deleteById(id);
   }
 
   @Override
   public List<VentesDto> findAll() {
-    // TODO Auto-generated method stub
-    return null;
+    return this.repository.findAll()
+        .stream()
+        .map((vente) -> DtoMapper.fromEntity(vente, VentesDto.class))
+        .collect(Collectors.toList());
   }
 
   @Override
