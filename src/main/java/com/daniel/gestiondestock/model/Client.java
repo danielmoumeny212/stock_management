@@ -22,7 +22,8 @@ public class Client  extends AbstractEntity{
     private Adresse adresse;
     
     @Column(name="identreprise")
-    private String idEntreprise;
+    private Integer idEntreprise;
+   
     
     @Column(name="numTel")
     private String numTel;

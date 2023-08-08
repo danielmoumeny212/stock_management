@@ -29,7 +29,7 @@ public class Article extends AbstractEntity {
      private BigDecimal prixUnitaireTtc;
      
      @Column(name="identreprise")
-     private String idEntreprise;
+     private Integer idEntreprise;
 
      @ManyToOne // 1 a plusieurs pour indiquer
      @JoinColumn(name= "idcategory")

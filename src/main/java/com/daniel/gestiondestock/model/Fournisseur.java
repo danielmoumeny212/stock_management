@@ -31,7 +31,8 @@ public class Fournisseur  extends  AbstractEntity{
     private String mail;
 
     @Column(name="identreprise")
-    private String idEntreprise;
+    private Integer idEntreprise;
+    
 
     @Column(name="numTel")
     private String numTel;
