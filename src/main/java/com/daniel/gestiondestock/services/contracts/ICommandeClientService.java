@@ -5,6 +5,6 @@ import com.daniel.gestiondestock.dto.CommandeClientDto;
 public interface ICommandeClientService extends AbstractService<CommandeClientDto> {
   // CommandeClientDto findCommandeByDate(String date);
   CommandeClientDto findByCode(String code);
-  CommandeClientDto findByIdEntreprise(String idEntreprise);
+  CommandeClientDto findByIdEntreprise(Integer idEntreprise);
 
 }

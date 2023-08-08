@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.daniel.gestiondestock.dto.CommandeClientDto;
 import com.daniel.gestiondestock.dto.LigneCommandeClientDto;
@@ -45,8 +44,8 @@ public class CommandeClientService implements ICommandeClientService {
   private LigneCommandeClientRepository ligneCommandeClientRepository;
 
   @Override
-  public CommandeClientDto findByIdEntreprise(String idEntreprise) {
-    if (!StringUtils.hasLength(idEntreprise)) {
+  public CommandeClientDto findByIdEntreprise(Integer idEntreprise) {
+    if (idEntreprise == null) {
       log.error("Invalid date: " + idEntreprise);
       return null;
     }
