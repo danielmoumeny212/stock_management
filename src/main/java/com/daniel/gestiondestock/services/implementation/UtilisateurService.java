@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -39,7 +38,18 @@ public class UtilisateurService implements IUtilisateurService {
 
   @Override
   public UtilisateurDto changePassword(ChangeUserPasswordDto dto) {
-    return null;
+    validate(dto);
+    Optional<Utilisateur> userOptional = this.repository.findById(dto.getId());
+    if (userOptional.isEmpty()) {
+      log.warn("none existing User  with id " + dto.getId());
+      throw new EntityNotFoundException("none existing User  with id " + dto.getId(), ErrorCodes.UTILISATEUR_NOT_FOUND);
+
+    }
+    var user = userOptional.get();
+    user.setMotDePasse(this.passwordEncoder.encode(dto.getPassword()));
+
+    
+    return DtoMapper.fromEntity(user, UtilisateurDto.class);
   }
 
   @Override
@@ -101,52 +111,48 @@ public class UtilisateurService implements IUtilisateurService {
     return user.isPresent();
   }
 
-
   private void validate(ChangeUserPasswordDto dto) {
     validateDtoNotNull(dto);
     validateDtoIdNotNull(dto);
     validatePasswordsNotEmpty(dto);
     validateMatchingPasswords(dto);
-}
+  }
 
-private void logAndThrow(String logMessage, String errorMessage, ErrorCodes errorCode) {
+  private void logAndThrow(String logMessage, String errorMessage, ErrorCodes errorCode) {
     log.warn(logMessage);
     throw new InvalidOperationException(errorMessage, errorCode);
-}
+  }
 
-private void validateDtoNotNull(ChangeUserPasswordDto dto) {
+  private void validateDtoNotNull(ChangeUserPasswordDto dto) {
     if (dto == null) {
-        logAndThrow("Impossible de modifier le mot de passe avec un objet NULL",
-            "Aucune information n'a ete fourni pour pouvoir changer le mot de passe",
-            ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
+      logAndThrow("Impossible de modifier le mot de passe avec un objet NULL",
+          "Aucune information n'a ete fourni pour pouvoir changer le mot de passe",
+          ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
     }
-}
+  }
 
-private void validateDtoIdNotNull(ChangeUserPasswordDto dto) {
+  private void validateDtoIdNotNull(ChangeUserPasswordDto dto) {
     if (dto.getId() == null) {
-        logAndThrow("Impossible de modifier le mot de passe avec un ID NULL",
-            "ID utilisateur null:: Impossible de modifier le mote de passe",
-            ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
+      logAndThrow("Impossible de modifier le mot de passe avec un ID NULL",
+          "ID utilisateur null:: Impossible de modifier le mote de passe",
+          ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
     }
-}
+  }
 
-private void validatePasswordsNotEmpty(ChangeUserPasswordDto dto) {
+  private void validatePasswordsNotEmpty(ChangeUserPasswordDto dto) {
     if (!StringUtils.hasLength(dto.getPassword()) || !StringUtils.hasLength(dto.getConfirmPassword())) {
-        logAndThrow("Impossible de modifier le mot de passe avec un mot de passe NULL",
-            "Mot de passe utilisateur null:: Impossible de modifier le mote de passe",
-            ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
+      logAndThrow("Impossible de modifier le mot de passe avec un mot de passe NULL",
+          "Mot de passe utilisateur null:: Impossible de modifier le mote de passe",
+          ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
     }
-}
+  }
 
-private void validateMatchingPasswords(ChangeUserPasswordDto dto) {
+  private void validateMatchingPasswords(ChangeUserPasswordDto dto) {
     if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-        logAndThrow("Impossible de modifier le mot de passe avec deux mots de passe differents",
-            "Mots de passe utilisateur non conformes:: Impossible de modifier le mote de passe",
-            ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
+      logAndThrow("Impossible de modifier le mot de passe avec deux mots de passe differents",
+          "Mots de passe utilisateur non conformes:: Impossible de modifier le mote de passe",
+          ErrorCodes.UTILISATEUR_CHANGE_PASSWORD_OBJECT_NOT_VALID);
     }
-}
-
-
-
+  }
 
 }
