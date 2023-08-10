@@ -1,4 +1,10 @@
 spring:
+
+  # security:
+  #   user:
+  #     name: daniel
+  #     password: daniel
+  #     roles: manager
   datasource:
     url: jdbc:mysql://localhost:3306/gestionstock?createDatabaseIfnotExist=true
     username: root
@@ -21,3 +27,5 @@ flickr:
   apiSecret: d4cf4ee01306e6d8
   appKey: 72157720890663320-3e8863b5da7ea3e6
   appSecret: 04cf58b901f3d224
+
+  
