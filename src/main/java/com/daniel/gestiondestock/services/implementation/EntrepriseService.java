@@ -3,6 +3,7 @@ package com.daniel.gestiondestock.services.implementation;
 import org.springframework.stereotype.Service;
 
 import com.daniel.gestiondestock.repository.EntrepriseRepository;
+import com.daniel.gestiondestock.repository.RolesRepository;
 import com.daniel.gestiondestock.repository.UtilisateurRepository;
 
 import jakarta.transaction.Transactional;
