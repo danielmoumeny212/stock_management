@@ -20,6 +20,7 @@ public class MvtStk extends  AbstractEntity{
 
     @Column(name="quantite")
     private BigDecimal quantite;
+    
     @Column(name="datemvt")
     private Instant dateMvt;
 
