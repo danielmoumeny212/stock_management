@@ -1,6 +1,7 @@
 package com.daniel.gestiondestock.dto;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -21,7 +22,7 @@ public class UtilisateurDto {
     private String photo;
 
 
-    private String dateDeNaissance;
+    private Instant dateDeNaissance;
 
     private EntrepriseDto entreprise;
 

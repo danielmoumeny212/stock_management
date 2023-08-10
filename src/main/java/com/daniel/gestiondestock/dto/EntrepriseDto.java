@@ -24,6 +24,9 @@ public class EntrepriseDto {
 
     private String siteweb;
 
+    private AdresseDto adresse;
+
+
     private List<UtilisateurDto> utilisateurs;
 
     EntrepriseDto(){}

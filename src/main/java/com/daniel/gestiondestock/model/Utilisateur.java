@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ public class Utilisateur  extends  AbstractEntity{
 
 
     @Column(name="datedenaissance")
-    private String dateDeNaissance;
+    private Instant dateDeNaissance;
 
     @ManyToOne
     @JoinColumn(name="identreprise")

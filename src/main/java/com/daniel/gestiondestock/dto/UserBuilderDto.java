@@ -1,5 +1,6 @@
 package com.daniel.gestiondestock.dto;
 
+import java.time.Instant;
 import java.util.List;
 
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class UserBuilderDto {
     private String photo;
 
 
-    private String dateDeNaissance;
+    private Instant dateDeNaissance;
 
     private EntrepriseDto entreprise;
 
