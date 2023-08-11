@@ -59,7 +59,7 @@ public class ArticleService implements IArticleService {
     Optional<Article> articleOptional = articleRepository.findArticleByCodeArticle(codeArticle);
     Article article = articleOptional.orElseThrow(
         () -> new EntityNotFoundException(
-            "Aucun article avec le Code = " + codeArticle + "n'as été trouver dans la BDD",
+            "Article not found with  Code = " + codeArticle + "n'as été trouver dans la BDD",
             ErrorCodes.ARTICLE_NOT_FOUND));
     return DtoMapper.fromEntity(article, ArticleDto.class);
   }
