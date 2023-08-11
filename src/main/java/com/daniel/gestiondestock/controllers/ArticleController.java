@@ -30,6 +30,7 @@ public class ArticleController implements ArticleApi {
   @Operation(description = "DELETE endpoint for articles", summary = "This is a summary of delete articles", responses = {
       @ApiResponse(description = "success", responseCode = "200")
   })
+  
   public void delete(Integer id) {
     articleService.delete(id);
   }

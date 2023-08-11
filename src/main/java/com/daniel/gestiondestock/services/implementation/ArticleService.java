@@ -24,12 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ArticleService implements IArticleService {
 
-  private ArticleRepository articleRepository;
+  private ArticleRepository repository;
 
   @Autowired
   public ArticleService(
       ArticleRepository articleRepository) {
-    this.articleRepository = articleRepository;
+    this.repository = articleRepository;
   }
 
   @Override
@@ -37,13 +37,13 @@ public class ArticleService implements IArticleService {
     if (id == null) {
       log.error("Invalid Id provided to delete article");
     }
-    this.articleRepository.deleteById(id);
+    this.repository.deleteById(id);
     ;
   }
 
   @Override
   public List<ArticleDto> findAll() {
-    List<ArticleDto> articleDtos = articleRepository.findAll()
+    List<ArticleDto> articleDtos = repository.findAll()
         .stream()
         .map((article) -> DtoMapper.fromEntity(article, ArticleDto.class))
         .collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class ArticleService implements IArticleService {
       log.error("Article CODE is null");
       return null;
     }
-    Optional<Article> articleOptional = articleRepository.findArticleByCodeArticle(codeArticle);
+    Optional<Article> articleOptional = repository.findArticleByCodeArticle(codeArticle);
     Article article = articleOptional.orElseThrow(
         () -> new EntityNotFoundException(
             "Article not found with  Code = " + codeArticle + "n'as été trouver dans la BDD",
@@ -70,7 +70,7 @@ public class ArticleService implements IArticleService {
       log.error("Article ID is null !");
       return null;
     }
-    Optional<Article> articleOptional = articleRepository.findById(id);
+    Optional<Article> articleOptional = repository.findById(id);
     Article article = articleOptional.orElseThrow(
         () -> new EntityNotFoundException("Aucun article avec l' ID " + id + " n'as été trouver dans la BDD",
             ErrorCodes.ARTICLE_NOT_FOUND));
@@ -86,7 +86,7 @@ public class ArticleService implements IArticleService {
       throw new InvalidEntityException("L'article n'est pas valide", ErrorCodes.ARTICLE_NOT_VALID, errors);
     }
     var article = DtoMapper.toEntity(dto, Article.class);
-    return DtoMapper.fromEntity(articleRepository.save(article), ArticleDto.class);
+    return DtoMapper.fromEntity(repository.save(article), ArticleDto.class);
   }
 
 }
