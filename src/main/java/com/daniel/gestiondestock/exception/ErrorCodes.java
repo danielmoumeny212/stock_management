@@ -1,11 +1,11 @@
 package com.daniel.gestiondestock.exception;
 
 public enum ErrorCodes {
-   
-  ARTICLE_NOT_FOUND (1000),
-  ARTICLE_NOT_VALID (1002),
-  CATEGORY_NOT_FOUND (2000),
-  CATEGORY_NOT_VALID (2001),
+
+  ARTICLE_NOT_FOUND(1000),
+  ARTICLE_NOT_VALID(1002),
+  CATEGORY_NOT_FOUND(2000),
+  CATEGORY_NOT_VALID(2001),
   COMMANDE_CLIENT_NOT_FOUND(4000),
   COMMANDE_CLIENT_NOT_VALID(4001),
   COMMANDE_FOURNISSEUR_NOT_FOUND(5000),
@@ -13,6 +13,8 @@ public enum ErrorCodes {
   ENTREPRISE_NOT_FOUND(6000),
   ENTREPRISE_NOT_VALID(6001),
   FOURNISSEUR_NOT_FOUND(7000),
+  FOURNISSEUR_NOT_VALID(7001),
+  FOURNISSEUR_ALREADY_IN_USE(7002),
   LIGNE_COMMANDE_CLIENT_NOT_FOUND(8000),
   LIGNE_COMMANDE_FOURNISSEUR_NOT_FOUND(9000),
   LIGNE_VENTE_NOT_FOUND(10000),
@@ -26,12 +28,13 @@ public enum ErrorCodes {
   VENTE_NOT_VALID(12001),
   CLIENT_NOT_FOUND(13000);
 
-  private int code; 
-  ErrorCodes(int code){
+  private int code;
+
+  ErrorCodes(int code) {
     this.code = code;
   }
 
-  public int getCode(){
+  public int getCode() {
     return code;
   }
 
