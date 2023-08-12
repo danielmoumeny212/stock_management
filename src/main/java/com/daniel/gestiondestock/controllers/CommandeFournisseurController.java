@@ -8,12 +8,12 @@ import com.daniel.gestiondestock.controllers.api.CommandeFournisseurApi;
 import com.daniel.gestiondestock.dto.CommandeFournisseurDto;
 import com.daniel.gestiondestock.services.implementation.CommandeFournisseurService;
 
-import static com.daniel.gestiondestock.utils.Constants.FOURNISSEUR_ENDPOINT;
+import static com.daniel.gestiondestock.utils.Constants.COMMANDE_FOURNISSEUR_ENDPOINT;
 
 import java.util.List;;
 
 @RestController
-@RequestMapping(FOURNISSEUR_ENDPOINT)
+@RequestMapping(COMMANDE_FOURNISSEUR_ENDPOINT)
 public class CommandeFournisseurController implements CommandeFournisseurApi{
   
   @Autowired
