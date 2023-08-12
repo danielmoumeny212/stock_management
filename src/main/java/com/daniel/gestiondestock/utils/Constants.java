@@ -5,5 +5,6 @@ public interface Constants {
   String COMMANDE_FOURNISSEUR_ENDPOINT  = APP_ROOT + "/commandefournisseurs";
   String ENTREPRISE_ENDPOINT = APP_ROOT + "/entreprise"; 
   String FOURNISSEUR_ENDPOINT = APP_ROOT + "/fournisseurs"; 
+  String USERS_ENDPOINT = APP_ROOT + "/users"; 
 
 }
