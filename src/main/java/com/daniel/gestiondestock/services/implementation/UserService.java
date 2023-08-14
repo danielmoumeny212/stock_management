@@ -46,7 +46,7 @@ public class UserService implements IUtilisateurService {
 
     }
     var user = userOptional.get();
-    user.setMotDePasse(this.passwordEncoder.encode(dto.getPassword()));
+    user.setPassword(this.passwordEncoder.encode(dto.getPassword()));
 
     return DtoMapper.fromEntity(user, UserDto.class);
   }
