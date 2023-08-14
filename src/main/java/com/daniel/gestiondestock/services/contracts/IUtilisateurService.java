@@ -1,12 +1,11 @@
 package com.daniel.gestiondestock.services.contracts;
 
-
-
 import com.daniel.gestiondestock.dto.ChangeUserPasswordDto;
-import com.daniel.gestiondestock.dto.UtilisateurDto;
+import com.daniel.gestiondestock.dto.UserDto;
 
-public interface IUtilisateurService extends AbstractService<UtilisateurDto> {
- 
-  UtilisateurDto findByEmail(String email);
-  UtilisateurDto changePassword(ChangeUserPasswordDto dto);
+public interface IUtilisateurService extends AbstractService<UserDto> {
+
+  UserDto findByEmail(String email);
+
+  UserDto changePassword(ChangeUserPasswordDto dto);
 }

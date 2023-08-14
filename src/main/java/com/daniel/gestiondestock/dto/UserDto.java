@@ -1,11 +1,12 @@
 package com.daniel.gestiondestock.dto;
+
 import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
 
 @Data
-public class UtilisateurDto {
+public class UserDto {
 
     private Integer id;
 
@@ -21,17 +22,13 @@ public class UtilisateurDto {
 
     private String photo;
 
-
     private Instant dateDeNaissance;
 
     private EntrepriseDto entreprise;
 
     private List<RolesDto> roles;
 
+    UserDto() {
+    }
 
-   UtilisateurDto(){}
-
- 
 }
-
-

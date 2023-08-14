@@ -3,7 +3,6 @@ package com.daniel.gestiondestock.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,10 +10,10 @@ import lombok.*;
 @Entity
 @Table(name = "roles")
 public class Roles extends AbstractEntity {
-    @Column(name="rolename")
+    @Column(name = "rolename")
     private String roleName;
 
     @ManyToOne
-    @JoinColumn(name="idutilisateur")
-    private Utilisateur utilisateur;
+    @JoinColumn(name = "idutilisateur")
+    private User utilisateur;
 }

@@ -13,7 +13,7 @@ import com.daniel.gestiondestock.model.Roles;
 import com.daniel.gestiondestock.dto.EntrepriseDto;
 import com.daniel.gestiondestock.dto.RolesDto;
 import com.daniel.gestiondestock.dto.UserBuilderDto;
-import com.daniel.gestiondestock.dto.UtilisateurDto;
+import com.daniel.gestiondestock.dto.UserDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
 import com.daniel.gestiondestock.exception.ErrorCodes;
 import com.daniel.gestiondestock.exception.InvalidEntityException;
@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EntrepriseService implements IEntrepriseService {
   private EntrepriseRepository repository;
-  private UtilisateurService utilisateurService;
+  private UserService utilisateurService;
   private RolesRepository rolesRepository;
 
   @Autowired
-  public EntrepriseService(EntrepriseRepository repository, UtilisateurService utilisateurService,
+  public EntrepriseService(EntrepriseRepository repository, UserService utilisateurService,
       RolesRepository rolesRepository) {
     this.repository = repository;
     this.utilisateurService = utilisateurService;
@@ -50,21 +50,21 @@ public class EntrepriseService implements IEntrepriseService {
     }
     EntrepriseDto savedEntreprise = DtoMapper.fromEntity(
         this.repository.save(DtoMapper.toEntity(dto, Entreprise.class)), EntrepriseDto.class);
-    
-    UtilisateurDto utilisateur = fromEntreprise(savedEntreprise);
 
-    var savedUser =  this.utilisateurService.save(utilisateur);
+    UserDto utilisateur = fromEntreprise(savedEntreprise);
 
-     RolesDto rolesDto = RolesDto.builder()
+    var savedUser = this.utilisateurService.save(utilisateur);
+
+    RolesDto rolesDto = RolesDto.builder()
         .roleName("ADMIN")
         .utilisateur(savedUser)
         .build();
-     rolesRepository.save(DtoMapper.fromEntity(rolesDto, Roles.class));
-    
+    rolesRepository.save(DtoMapper.fromEntity(rolesDto, Roles.class));
+
     return savedEntreprise;
   }
 
-  private UtilisateurDto fromEntreprise(EntrepriseDto dto) {
+  private UserDto fromEntreprise(EntrepriseDto dto) {
     var user = UserBuilderDto.builder()
         .adresse(dto.getAdresse())
         .nom(dto.getNom())
@@ -76,7 +76,7 @@ public class EntrepriseService implements IEntrepriseService {
         .photo(dto.getPhoto())
         .build();
 
-    return DtoMapper.fromEntity(user, UtilisateurDto.class);
+    return DtoMapper.fromEntity(user, UserDto.class);
 
   }
 

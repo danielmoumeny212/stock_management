@@ -8,40 +8,38 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.List;
 
-
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name="users")
-public class Utilisateur  extends  AbstractEntity{
-    @Column(name="nom")
+@Table(name = "users")
+public class User extends AbstractEntity {
+    @Column(name = "nom")
     private String nom;
 
-    @Column(name="prenom")
+    @Column(name = "prenom")
     private String prenom;
 
-    @Column(name="email")
-     private String email;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name="motdepasse")
+    @Column(name = "motdepasse")
     private String motDePasse;
 
     @Embedded
     private Adresse adresse;
 
-    @Column(name="photo")
+    @Column(name = "photo")
     private String photo;
 
-
-    @Column(name="datedenaissance")
+    @Column(name = "datedenaissance")
     private Instant dateDeNaissance;
 
     @ManyToOne
-    @JoinColumn(name="identreprise")
+    @JoinColumn(name = "identreprise")
     private Entreprise entreprise;
 
-    @OneToMany(mappedBy ="utilisateur")
-    private List<Roles>roles;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Roles> roles;
 
 }

@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.daniel.gestiondestock.dto.ChangeUserPasswordDto;
-import com.daniel.gestiondestock.dto.UtilisateurDto;
+import com.daniel.gestiondestock.dto.UserDto;
 import com.daniel.gestiondestock.exception.EntityNotFoundException;
 import com.daniel.gestiondestock.exception.ErrorCodes;
 import com.daniel.gestiondestock.exception.InvalidEntityException;
 import com.daniel.gestiondestock.exception.InvalidOperationException;
 import com.daniel.gestiondestock.mapper.DtoMapper;
-import com.daniel.gestiondestock.model.Utilisateur;
-import com.daniel.gestiondestock.repository.UtilisateurRepository;
+import com.daniel.gestiondestock.model.User;
+import com.daniel.gestiondestock.repository.UserRepository;
 import com.daniel.gestiondestock.services.contracts.IUtilisateurService;
 import com.daniel.gestiondestock.validators.DtoValidator;
 
@@ -26,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class UtilisateurService implements IUtilisateurService {
-  private UtilisateurRepository repository;
+public class UserService implements IUtilisateurService {
+  private UserRepository repository;
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UtilisateurService(UtilisateurRepository repository, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
     this.repository = repository;
     this.passwordEncoder = passwordEncoder;
   }
 
   @Override
-  public UtilisateurDto changePassword(ChangeUserPasswordDto dto) {
+  public UserDto changePassword(ChangeUserPasswordDto dto) {
     validate(dto);
-    Optional<Utilisateur> userOptional = this.repository.findById(dto.getId());
+    Optional<User> userOptional = this.repository.findById(dto.getId());
     if (userOptional.isEmpty()) {
       log.warn("none existing User  with id " + dto.getId());
       throw new EntityNotFoundException("none existing User  with id " + dto.getId(), ErrorCodes.UTILISATEUR_NOT_FOUND);
@@ -48,14 +48,13 @@ public class UtilisateurService implements IUtilisateurService {
     var user = userOptional.get();
     user.setMotDePasse(this.passwordEncoder.encode(dto.getPassword()));
 
-    
-    return DtoMapper.fromEntity(user, UtilisateurDto.class);
+    return DtoMapper.fromEntity(user, UserDto.class);
   }
 
   @Override
-  public UtilisateurDto findByEmail(String email) {
-    return this.repository.findUtilisateurByEmail(email)
-        .map((user) -> DtoMapper.fromEntity(user, UtilisateurDto.class))
+  public UserDto findByEmail(String email) {
+    return this.repository.findUserByEmail(email)
+        .map((user) -> DtoMapper.fromEntity(user, UserDto.class))
         .orElseThrow(() -> new EntityNotFoundException("There's not user with email : " + email,
             ErrorCodes.UTILISATEUR_NOT_FOUND));
   }
@@ -70,27 +69,27 @@ public class UtilisateurService implements IUtilisateurService {
   }
 
   @Override
-  public List<UtilisateurDto> findAll() {
+  public List<UserDto> findAll() {
     return this.repository.findAll()
         .stream()
-        .map((user) -> DtoMapper.fromEntity(user, UtilisateurDto.class))
+        .map((user) -> DtoMapper.fromEntity(user, UserDto.class))
         .collect(Collectors.toList());
   }
 
   @Override
-  public UtilisateurDto findById(Integer id) {
+  public UserDto findById(Integer id) {
     if (id == null) {
       log.error("User ID is null");
     }
     var foundedUser = this.repository.findById(id).map(
-        user -> DtoMapper.toEntity(user, UtilisateurDto.class));
+        user -> DtoMapper.toEntity(user, UserDto.class));
 
     return foundedUser.orElseThrow(() -> new EntityNotFoundException("There's no user with the given ID = " + id,
         ErrorCodes.UTILISATEUR_NOT_FOUND));
   }
 
   @Override
-  public UtilisateurDto save(UtilisateurDto dto) {
+  public UserDto save(UserDto dto) {
     var errors = DtoValidator.validate(dto);
     if (!errors.isEmpty()) {
       log.error("User is not valid {}", dto);
@@ -103,11 +102,11 @@ public class UtilisateurService implements IUtilisateurService {
     }
     dto.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
     return DtoMapper.fromEntity(
-        this.repository.save(DtoMapper.toEntity(dto, Utilisateur.class)), UtilisateurDto.class);
+        this.repository.save(DtoMapper.toEntity(dto, User.class)), UserDto.class);
   }
 
   private boolean userAlreadyExists(String email) {
-    Optional<Utilisateur> user = this.repository.findUtilisateurByEmail(email);
+    Optional<User> user = this.repository.findUserByEmail(email);
     return user.isPresent();
   }
 

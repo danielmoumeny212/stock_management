@@ -7,35 +7,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.gestiondestock.controllers.api.UtilisateurApi;
-import com.daniel.gestiondestock.dto.UtilisateurDto;
-import com.daniel.gestiondestock.services.implementation.UtilisateurService;
+import com.daniel.gestiondestock.dto.UserDto;
+import com.daniel.gestiondestock.services.implementation.UserService;
 import static com.daniel.gestiondestock.utils.Constants.USERS_ENDPOINT;
 
 @RestController
 @RequestMapping(USERS_ENDPOINT)
-public class UtilisateurController implements UtilisateurApi {
-  
+public class UserController implements UtilisateurApi {
+
   @Autowired
-  private UtilisateurService service; 
+  private UserService service;
 
   @Override
-  public UtilisateurDto create(UtilisateurDto resource) {
+  public UserDto create(UserDto resource) {
     return this.service.save(resource);
   }
 
   @Override
   public void delete(Integer id) {
-    this.service.delete(id);    
+    this.service.delete(id);
   }
 
   @Override
-  public List<UtilisateurDto> getAll() {
+  public List<UserDto> getAll() {
     return this.service.findAll();
   }
 
   @Override
-  public UtilisateurDto getById(Integer id) {
+  public UserDto getById(Integer id) {
     return this.service.findById(id);
   }
-  
+
 }

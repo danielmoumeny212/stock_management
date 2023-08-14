@@ -1,6 +1,5 @@
 package com.daniel.gestiondestock.dto;
 
-
 import lombok.Data;
 
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 @Data
 public class EntrepriseDto {
     private Integer id;
-
 
     private String nom;
 
@@ -26,10 +24,9 @@ public class EntrepriseDto {
 
     private AdresseDto adresse;
 
+    private List<UserDto> utilisateurs;
 
-    private List<UtilisateurDto> utilisateurs;
+    EntrepriseDto() {
+    }
 
-    EntrepriseDto(){}
-
-   
 }
