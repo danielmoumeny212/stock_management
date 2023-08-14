@@ -11,7 +11,6 @@ import com.daniel.gestiondestock.dto.VentesDto;
 import com.daniel.gestiondestock.services.implementation.VentesService;
 import static com.daniel.gestiondestock.utils.Constants.VENTES_ENDPOINT;;
 
-
 @RestController
 @RequestMapping(VENTES_ENDPOINT)
 public class VentesController implements VentesApi {
